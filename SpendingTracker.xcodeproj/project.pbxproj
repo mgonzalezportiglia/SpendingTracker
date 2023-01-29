@@ -13,6 +13,7 @@
 		0B7AD5112979D07E00B3A9B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7AD5102979D07E00B3A9B9 /* Preview Assets.xcassets */; };
 		0B7AD5132979D07E00B3A9B9 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD5122979D07E00B3A9B9 /* Persistence.swift */; };
 		0B7AD5162979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD5142979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld */; };
+		0B92FB722986F893003CA5D1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92FB712986F893003CA5D1 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		0B7AD5102979D07E00B3A9B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0B7AD5122979D07E00B3A9B9 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		0B7AD5152979D07E00B3A9B9 /* SpendingTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SpendingTracker.xcdatamodel; sourceTree = "<group>"; };
+		0B92FB712986F893003CA5D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 		0B7AD5082979D07C00B3A9B9 /* SpendingTracker */ = {
 			isa = PBXGroup;
 			children = (
+				0B92FB702986F877003CA5D1 /* MainView */,
 				0B7AD5092979D07C00B3A9B9 /* SpendingTrackerApp.swift */,
 				0B7AD50B2979D07C00B3A9B9 /* ContentView.swift */,
 				0B7AD50D2979D07E00B3A9B9 /* Assets.xcassets */,
@@ -71,6 +74,14 @@
 				0B7AD5102979D07E00B3A9B9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0B92FB702986F877003CA5D1 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				0B92FB712986F893003CA5D1 /* MainView.swift */,
+			);
+			path = MainView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +157,7 @@
 				0B7AD5162979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld in Sources */,
 				0B7AD5132979D07E00B3A9B9 /* Persistence.swift in Sources */,
 				0B7AD50C2979D07C00B3A9B9 /* ContentView.swift in Sources */,
+				0B92FB722986F893003CA5D1 /* MainView.swift in Sources */,
 				0B7AD50A2979D07C00B3A9B9 /* SpendingTrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
