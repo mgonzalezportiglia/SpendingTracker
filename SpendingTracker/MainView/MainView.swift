@@ -11,41 +11,17 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                // Card view
-                HStack {
-                    
-                    VStack(alignment: .leading, spacing: 20) {
-                        Text("Card new brand blue 123")
-                            .font(.system(.title2))
-                            .fontWeight(.bold)
-                        
-                        Text("Balance: $5.000")
-                        Text("1234 1234 1234 5555")
-                            .font(.system(.body, design: .monospaced))
-                        
-                        HStack {
-                            Text("Credit limit: $5.555")
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing) {
-                                Text("Valid Thru")
-                                Text("06/26")
-                            }
-                        }
+                TabView {
+                    ForEach(0..<6) {_ in
+                        CardView()
                     }
-                    .font(.system(size: 18))
-                    .foregroundColor(Color.white)
-                    .padding()
-                    
-                    Spacer()
                 }
-                .background(Color.blue)
-                .cornerRadius(10)
-                .padding()
-                // / Card View
+                .tabViewStyle(.page)
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .frame(height: 250)
             }
             .navigationTitle(Text("Expense schedule"))
+            
         }
     }
 }
