@@ -43,12 +43,14 @@ struct CardView: View {
             
             Spacer()
         }
-        .background(Color.blue)
+        .background(
+            LinearGradient(gradient: Gradient(colors: [.blue, Color.blue.opacity(0.3)]), startPoint: .bottomLeading, endPoint: .topTrailing)
+        )
         .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 8)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(.black, lineWidth: 0.5)
+                .strokeBorder()
         )
         .padding()
     }
