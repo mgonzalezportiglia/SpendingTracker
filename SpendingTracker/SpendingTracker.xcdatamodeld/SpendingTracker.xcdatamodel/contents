@@ -6,6 +6,7 @@
         <attribute name="month" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="number" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="year" optional="YES" attributeType="String"/>
     </entity>
@@ -14,6 +15,6 @@
     </entity>
     <elements>
         <element name="Item" positionX="-63" positionY="-18" width="128" height="14"/>
-        <element name="Card" positionX="-63" positionY="0" width="128" height="14"/>
+        <element name="Card" positionX="-63" positionY="0" width="128" height="149"/>
     </elements>
 </model>

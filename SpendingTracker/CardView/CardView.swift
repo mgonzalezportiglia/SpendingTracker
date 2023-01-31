@@ -8,13 +8,36 @@
 import SwiftUI
 
 struct CardView: View {
+    
+    @State private var shouldPresentCardSheet = false
+    
     var body: some View {
+        
         HStack {
             
             VStack(alignment: .leading, spacing: 20) {
-                Text("Card new brand blue 123")
-                    .font(.system(.title2))
-                    .fontWeight(.bold)
+                HStack {
+                    Text("Card new brand blue 123")
+                        .font(.system(.title2))
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    
+                    Button {
+                        shouldPresentCardSheet.toggle()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 26, weight: .bold))
+                    }
+                    .confirmationDialog("Remove card", isPresented: $shouldPresentCardSheet) {
+                        Button("Remove") {
+                            
+                        }
+                    } message: {
+                        Text("Are you sure you want to delete this card?")
+                    }
+                    
+                }
                 
                 HStack {
                     Image("mastercard")

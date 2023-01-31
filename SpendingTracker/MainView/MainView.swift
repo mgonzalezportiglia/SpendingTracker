@@ -13,6 +13,10 @@ struct MainView: View {
     @State private var shouldPresentAddCreditForm = false
     @State private var shouldPresentAddTransactionForm = false
     
+    @FetchRequest(sortDescriptors:[]) var cards: FetchedResults<Card>
+    
+    @Environment(\.managedObjectContext) var moc
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -38,6 +42,12 @@ struct MainView: View {
                     .cornerRadius(5)
                     
                     Text("The card selected is the number \(selectionCard)")
+                    
+                    Spacer()
+                    
+                    ForEach(cards) { card in
+                        Text(card.name ?? "Unknown card")
+                    }
                 }
                 
                 Spacer()
@@ -54,7 +64,13 @@ struct MainView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("+ Card") {
-                            shouldPresentAddCreditForm.toggle()
+                            //shouldPresentAddCreditForm.toggle()
+                            let card = Card(context: moc)
+                            
+                            card.timestamp = Date()
+                            card.name = "Card new brand red"
+                            
+                            try? moc.save()
                         }
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.white)
@@ -72,5 +88,6 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .environment((\.managedObjectContext), PersistenceController.shared.container.viewContext)
     }
 }
