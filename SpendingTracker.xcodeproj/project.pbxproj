@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B25F36429895FF30072D64A /* AddTransactionFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B25F36329895FF30072D64A /* AddTransactionFormView.swift */; };
 		0B44D2252988593300E28EEF /* AddCreditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B44D2242988593300E28EEF /* AddCreditFormView.swift */; };
 		0B7AD50A2979D07C00B3A9B9 /* SpendingTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD5092979D07C00B3A9B9 /* SpendingTrackerApp.swift */; };
 		0B7AD50C2979D07C00B3A9B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD50B2979D07C00B3A9B9 /* ContentView.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B25F36329895FF30072D64A /* AddTransactionFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionFormView.swift; sourceTree = "<group>"; };
 		0B44D2242988593300E28EEF /* AddCreditFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCreditFormView.swift; sourceTree = "<group>"; };
 		0B7AD5062979D07C00B3A9B9 /* SpendingTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpendingTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7AD5092979D07C00B3A9B9 /* SpendingTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingTrackerApp.swift; sourceTree = "<group>"; };
@@ -42,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B25F36229895FCC0072D64A /* AddTransactionForm */ = {
+			isa = PBXGroup;
+			children = (
+				0B25F36329895FF30072D64A /* AddTransactionFormView.swift */,
+			);
+			path = AddTransactionForm;
+			sourceTree = "<group>";
+		};
 		0B44D2232988591D00E28EEF /* AddCreditForm */ = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +79,7 @@
 		0B7AD5082979D07C00B3A9B9 /* SpendingTracker */ = {
 			isa = PBXGroup;
 			children = (
+				0B25F36229895FCC0072D64A /* AddTransactionForm */,
 				0B44D2232988591D00E28EEF /* AddCreditForm */,
 				0B92FB73298706DE003CA5D1 /* CardView */,
 				0B92FB702986F877003CA5D1 /* MainView */,
@@ -181,6 +192,7 @@
 				0B7AD50C2979D07C00B3A9B9 /* ContentView.swift in Sources */,
 				0B92FB722986F893003CA5D1 /* MainView.swift in Sources */,
 				0B92FB75298706F3003CA5D1 /* CardView.swift in Sources */,
+				0B25F36429895FF30072D64A /* AddTransactionFormView.swift in Sources */,
 				0B7AD50A2979D07C00B3A9B9 /* SpendingTrackerApp.swift in Sources */,
 				0B44D2252988593300E28EEF /* AddCreditFormView.swift in Sources */,
 			);

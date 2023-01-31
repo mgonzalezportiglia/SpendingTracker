@@ -15,9 +15,10 @@ struct AddCreditFormView: View {
     @State private var number = ""
     @State private var limit = ""
     @State private var selectedTypeCard: TypeCard = .visacard
-    @State private var yearExpiration = ""
-    @State private var monthExpiration = ""
-    @State private var color = ""
+    @State private var yearExpiration = 2022
+    @State private var monthExpiration = 1
+    @State private var color = Color.blue
+    
     
     var body: some View {
         NavigationView {
@@ -27,7 +28,9 @@ struct AddCreditFormView: View {
                     TextField("Credit card number", text: $number)
                     TextField("Limit", text: $limit)
                     Picker(selection: $selectedTypeCard) {
-                        
+                        ForEach(TypeCard.allCases) {
+                            Text("\($0.description)")
+                        }
                     } label: {
                         Text("Type")
                     }
@@ -37,13 +40,22 @@ struct AddCreditFormView: View {
                 }
                 
                 Section {
-                    
+                    Picker("Month", selection: $monthExpiration) {
+                        ForEach(1..<13, id: \.self) {
+                            Text(String($0))
+                        }
+                    }
+                    Picker("Year", selection: $yearExpiration) {
+                        ForEach(2022..<2040, id: \.self) {
+                            Text(String($0))
+                        }
+                    }
                 } header: {
                     Text("Expiration")
                 }
                 
                 Section {
-                    
+                    ColorPicker("Card color", selection: $color)
                 } header: {
                     Text("Color")
                 }
@@ -55,7 +67,12 @@ struct AddCreditFormView: View {
                     Button("Save") {
                         
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .background(Color.blue)
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 16, weight: .bold))
+                    .cornerRadius(8)
+        
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
@@ -67,9 +84,10 @@ struct AddCreditFormView: View {
     }
 }
 
-enum TypeCard: String, CustomStringConvertible {
-    case discovercard, mastercard, paypalcard, visacard
+enum TypeCard: String, CustomStringConvertible, CaseIterable, Identifiable {
     var id: Self { self }
+    
+    case discovercard, mastercard, paypalcard, visacard
     
     var description: String {
         switch self {

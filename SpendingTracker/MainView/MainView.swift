@@ -11,6 +11,7 @@ struct MainView: View {
     
     @State private var selectionCard = -1
     @State private var shouldPresentAddCreditForm = false
+    @State private var shouldPresentAddTransactionForm = false
     
     var body: some View {
         NavigationView {
@@ -26,11 +27,28 @@ struct MainView: View {
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
                 .frame(height: 300)
                 
-                Text("The card selected is the number \(selectionCard)")
+                VStack {
+                    Button("+ Transaction") {
+                        shouldPresentAddTransactionForm.toggle()
+                    }
+                    .padding()
+                    .background(Color.black)
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 18, weight: .bold))
+                    .cornerRadius(5)
+                    
+                    Text("The card selected is the number \(selectionCard)")
+                }
+                
+                Spacer()
+                    .fullScreenCover(isPresented: $shouldPresentAddTransactionForm) {
+                        AddTransactionFormView()
+                    }
+                
                 
                 Spacer()
                     .fullScreenCover(isPresented: $shouldPresentAddCreditForm) {
-                        AddCreditForm()
+                        AddCreditFormView()
                     }
             }.navigationTitle(Text("Expense schedule"))
                 .toolbar {
@@ -49,38 +67,6 @@ struct MainView: View {
         
     }
     
-}
-
-struct AddCreditForm: View {
-    
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        NavigationView {
-            Form {
-                Text("aasdasd")
-                HStack {
-                    Button("Dismiss bla") {
-                       dismiss()
-                    }
-                }
-            }
-            .navigationTitle(Text("Add credit card form"))
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        
-                    }
-                    .padding()
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                     dismiss()
-                    }
-                }
-            }
-        }
-    }
 }
 
 struct MainView_Previews: PreviewProvider {
