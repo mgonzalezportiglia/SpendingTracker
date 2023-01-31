@@ -20,7 +20,8 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                TabView(selection: $selectionCard) {
+                
+                /*TabView(selection: $selectionCard) {
                     ForEach(0..<3) { index in
                         CardView()
                             .padding(.bottom, 50)
@@ -29,25 +30,39 @@ struct MainView: View {
                 }
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
-                .frame(height: 300)
+                .frame(height: 300)*/
                 
-                VStack {
-                    Button("+ Transaction") {
-                        shouldPresentAddTransactionForm.toggle()
+                if !cards.isEmpty {
+                    TabView(selection: $selectionCard) {
+                        ForEach(cards) { card in
+                            CardView()
+                                .padding(.bottom, 50)
+                                .tag(card.id)
+                        }
                     }
-                    .padding()
-                    .background(Color.black)
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 18, weight: .bold))
-                    .cornerRadius(5)
-                    
-                    Text("The card selected is the number \(selectionCard)")
-                    
-                    Spacer()
-                    
-                    ForEach(cards) { card in
-                        Text(card.name ?? "Unknown card")
+                    .tabViewStyle(.page)
+                    .indexViewStyle(.page(backgroundDisplayMode: .always))
+                    .frame(height: 300)
+                
+                    VStack {
+                        Button("+ Transaction") {
+                            shouldPresentAddTransactionForm.toggle()
+                        }
+                        .padding()
+                        .background(Color.black)
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 18, weight: .bold))
+                        .cornerRadius(5)
+                        
+                        Text("The card selected is the number \(selectionCard)")
+                        
+                        Spacer()
+                        
+                        ForEach(cards) { card in
+                            Text(card.name ?? "Unknown card")
+                        }
                     }
+                    
                 }
                 
                 Spacer()
@@ -55,22 +70,16 @@ struct MainView: View {
                         AddTransactionFormView()
                     }
                 
-                
                 Spacer()
                     .fullScreenCover(isPresented: $shouldPresentAddCreditForm) {
                         AddCreditFormView()
                     }
+                
             }.navigationTitle(Text("Expense schedule"))
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("+ Card") {
-                            //shouldPresentAddCreditForm.toggle()
-                            let card = Card(context: moc)
-                            
-                            card.timestamp = Date()
-                            card.name = "Card new brand red"
-                            
-                            try? moc.save()
+                            shouldPresentAddCreditForm.toggle()
                         }
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.white)
@@ -79,6 +88,7 @@ struct MainView: View {
                         .cornerRadius(5)
                     }
                 }
+                .navigationViewStyle(.stack)
         }
         
     }

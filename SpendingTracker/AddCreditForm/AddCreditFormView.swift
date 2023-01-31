@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct AddCreditFormView: View {
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var moc
     
     @State private var name = ""
     @State private var number = ""
@@ -17,7 +19,7 @@ struct AddCreditFormView: View {
     @State private var selectedTypeCard: TypeCard = .visacard
     @State private var yearExpiration = 2022
     @State private var monthExpiration = 1
-    @State private var color = Color.blue
+    @State private var color: Color = .blue
     
     
     var body: some View {
@@ -65,13 +67,32 @@ struct AddCreditFormView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
+
+                        let card = Card(context: moc)
                         
+                        card.timestamp = Date()
+                        card.id = UUID()
+                        
+                        card.name = name
+                        card.number = Int16(number) ?? 0
+                        card.limit = Double(limit) ?? 0.0
+                        //card.type = selectedTypeCard
+                        card.month = String(monthExpiration)
+                        card.year = String(yearExpiration)
+                        card.colorR = Double(color.components.r)
+                        card.colorG = Double(color.components.g)
+                        card.colorB = Double(color.components.b)
+                        card.colorA = Double(color.components.a)
+                        
+                        do {
+                            try moc.save()
+                        } catch {
+                            print("An error was catched during saved perform")
+                        }
+                        
+                        /*print("card to persist name: \(name), number: \(number), limit: \(limit), type: \(selectedTypeCard.id), month: \(monthExpiration), year: \(yearExpiration), color (red): \(Double(color.components.r)), color (green): \(Double(color.components.g)), color (blue): \(Double(color.components.b)), color (alpha): \(Double(color.components.a))")*/
                     }
-                    .padding(.horizontal)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 16, weight: .bold))
-                    .cornerRadius(8)
+                    .buttonStyle(.borderedProminent)
         
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -81,6 +102,7 @@ struct AddCreditFormView: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
     }
 }
 
@@ -99,8 +121,26 @@ enum TypeCard: String, CustomStringConvertible, CaseIterable, Identifiable {
     }
 }
 
+extension Color {
+
+    var components: (r: Double, g: Double, b: Double, a: Double) {
+        
+        typealias NativeColor = UIColor
+        
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &a) else { return (0,0,0,0) }
+        
+        return (Double(r), Double(g), Double(b), Double(a))
+    }
+}
+    
 struct AddCreditFormView_Previews: PreviewProvider {
     static var previews: some View {
         AddCreditFormView()
+            .environment((\.managedObjectContext), PersistenceController.shared.container.viewContext)
     }
 }
