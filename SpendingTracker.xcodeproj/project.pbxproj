@@ -15,7 +15,7 @@
 		0B7AD50E2979D07E00B3A9B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7AD50D2979D07E00B3A9B9 /* Assets.xcassets */; };
 		0B7AD5112979D07E00B3A9B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7AD5102979D07E00B3A9B9 /* Preview Assets.xcassets */; };
 		0B7AD5132979D07E00B3A9B9 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD5122979D07E00B3A9B9 /* Persistence.swift */; };
-		0B7AD5162979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD5142979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld */; };
+		0B7AD5162979D07E00B3A9B9 /* SpendingTracker2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AD5142979D07E00B3A9B9 /* SpendingTracker2.xcdatamodeld */; };
 		0B92FB722986F893003CA5D1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92FB712986F893003CA5D1 /* MainView.swift */; };
 		0B92FB75298706F3003CA5D1 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92FB74298706F3003CA5D1 /* CardView.swift */; };
 /* End PBXBuildFile section */
@@ -33,6 +33,7 @@
 		0B7AD5152979D07E00B3A9B9 /* SpendingTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SpendingTracker.xcdatamodel; sourceTree = "<group>"; };
 		0B92FB712986F893003CA5D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0B92FB74298706F3003CA5D1 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		0B9C8B2B298C50EA009B7C30 /* SpendingTrackerTwo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SpendingTrackerTwo.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +99,7 @@
 				0B7AD50B2979D07C00B3A9B9 /* ContentView.swift */,
 				0B7AD50D2979D07E00B3A9B9 /* Assets.xcassets */,
 				0B7AD5122979D07E00B3A9B9 /* Persistence.swift */,
-				0B7AD5142979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld */,
+				0B7AD5142979D07E00B3A9B9 /* SpendingTracker2.xcdatamodeld */,
 				0B7AD50F2979D07E00B3A9B9 /* Preview Content */,
 			);
 			path = SpendingTracker;
@@ -199,7 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B25F36F2989706A0072D64A /* DataController.swift in Sources */,
-				0B7AD5162979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld in Sources */,
+				0B7AD5162979D07E00B3A9B9 /* SpendingTracker2.xcdatamodeld in Sources */,
 				0B7AD5132979D07E00B3A9B9 /* Persistence.swift in Sources */,
 				0B7AD50C2979D07C00B3A9B9 /* ContentView.swift in Sources */,
 				0B92FB722986F893003CA5D1 /* MainView.swift in Sources */,
@@ -411,13 +412,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0B7AD5142979D07E00B3A9B9 /* SpendingTracker.xcdatamodeld */ = {
+		0B7AD5142979D07E00B3A9B9 /* SpendingTracker2.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0B9C8B2B298C50EA009B7C30 /* SpendingTrackerTwo.xcdatamodel */,
 				0B7AD5152979D07E00B3A9B9 /* SpendingTracker.xcdatamodel */,
 			);
 			currentVersion = 0B7AD5152979D07E00B3A9B9 /* SpendingTracker.xcdatamodel */;
-			path = SpendingTracker.xcdatamodeld;
+			path = SpendingTracker2.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

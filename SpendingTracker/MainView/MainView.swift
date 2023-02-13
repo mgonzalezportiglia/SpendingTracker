@@ -13,40 +13,32 @@ struct MainView: View {
     @State private var shouldPresentAddCreditForm = false
     @State private var shouldPresentAddTransactionForm = false
     
-    @FetchRequest(sortDescriptors:[]) var cards: FetchedResults<Card>
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: true)],
+        animation: .default)
+    private var cards: FetchedResults<Card>
     
-    @Environment(\.managedObjectContext) var moc
-    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TransactionCard.timestamp, ascending: true)], animation: .default) private var transactions: FetchedResults<TransactionCard>
+
     var body: some View {
         NavigationView {
             ScrollView {
-                
-                /*TabView(selection: $selectionCard) {
-                    ForEach(0..<3) { index in
-                        CardView()
-                            .padding(.bottom, 50)
-                            .tag(index)
-                    }
-                }
-                .tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .always))
-                .frame(height: 300)*/
-                
+                  
                 if !cards.isEmpty {
                     TabView(selection: $selectionCard) {
-                        ForEach(cards) { card in
-                            CardView()
+                        ForEach(0..<cards.count) { index in
+                            let card = cards[index]
+                            CardView(card: card)
                                 .padding(.bottom, 50)
-                                .tag(card.id)
                         }
                     }
-                    .tabViewStyle(.page)
-                    .indexViewStyle(.page(backgroundDisplayMode: .always))
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                     .frame(height: 300)
-                
+                    
                     VStack {
                         Button("+ Transaction") {
-                            shouldPresentAddTransactionForm.toggle()
+                            handleAddTransaction()
                         }
                         .padding()
                         .background(Color.black)
@@ -61,13 +53,19 @@ struct MainView: View {
                         ForEach(cards) { card in
                             Text(card.name ?? "Unknown card")
                         }
+                        
+                        ForEach(transactions) { transaction in
+                            TransactionsCardView(transaction: transaction)
+                        }
                     }
                     
+                } else {
+                    emptyCardsView
                 }
                 
                 Spacer()
                     .fullScreenCover(isPresented: $shouldPresentAddTransactionForm) {
-                        AddTransactionFormView()
+                        AddTransactionFormView(card: cards.first)
                     }
                 
                 Spacer()
@@ -93,11 +91,80 @@ struct MainView: View {
         
     }
     
+    private var emptyCardsView: some View {
+        Text("NO CARDS FETCHED")
+    }
+    
+    private func handleAddTransaction() -> Void {
+        shouldPresentAddTransactionForm.toggle()
+    }
+    
+}
+
+struct TransactionsCardView: View {
+    
+    @State var shouldPresentTransactionSheet = false
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    let transaction: TransactionCard?
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            VStack {
+                HStack {
+                    Text("CATEGORY")
+                    Text("CATEGORY")
+                    Spacer()
+                    Button {
+                        shouldPresentTransactionSheet.toggle()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 26, weight: .bold))
+                    }
+                    .confirmationDialog("Remove transaction", isPresented: $shouldPresentTransactionSheet) {
+                        Button("Remove", action: handleRemoveTransaction)
+                    }
+                }
+                HStack {
+                    Text("$ " + String(format: "%.2f", self.transaction?.price ?? 0))
+                    Spacer()
+                    Text(self.transaction?.name ?? "")
+                }
+                
+                Image("no-image-available")
+                    .resizable()
+                    .scaledToFill()
+            }
+            .padding()
+            Spacer()
+        }
+        .background(Color.white)
+        .cornerRadius(5)
+        .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 0)
+        .padding(.horizontal)
+
+    }
+
+    private func handleRemoveTransaction() -> Void {
+        if let transactionToRemove = transaction {
+            viewContext.delete(transactionToRemove)
+            do {
+                try viewContext.save()
+            } catch  {
+                print("An error ocurrs during deleted transaction: \(error)")
+            }
+        }
+    }
+    
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
+        
+        let context = PersistenceController.shared.container.viewContext
+        
         MainView()
-            .environment((\.managedObjectContext), PersistenceController.shared.container.viewContext)
+            .environment((\.managedObjectContext), context)
     }
 }

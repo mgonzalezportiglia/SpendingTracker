@@ -9,14 +9,14 @@ import SwiftUI
 
 @main
 struct SpendingTrackerApp: App {
-    //let persistenceController = PersistenceController.shared
-    @StateObject private var dataController = DataController()
+    let persistenceController = PersistenceController.shared
+    //@StateObject private var dataController = DataController()
     
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
-                //.environment(\.managedObjectContext, persistenceController.container.viewContext)
+                //.environment(\.managedObjectContext, dataController.container.viewContext)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

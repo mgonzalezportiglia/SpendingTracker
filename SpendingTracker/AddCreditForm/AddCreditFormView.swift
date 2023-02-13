@@ -11,7 +11,7 @@ import UIKit
 struct AddCreditFormView: View {
     
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.managedObjectContext) private var moc
+    @Environment(\.managedObjectContext) private var viewContext
     
     @State private var name = ""
     @State private var number = ""
@@ -68,15 +68,15 @@ struct AddCreditFormView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
 
-                        let card = Card(context: moc)
+                        let card = Card(context: viewContext)
                         
                         card.timestamp = Date()
                         card.id = UUID()
                         
                         card.name = name
-                        card.number = Int16(number) ?? 0
+                        card.number = number
                         card.limit = Double(limit) ?? 0.0
-                        //card.type = selectedTypeCard
+                        card.type = selectedTypeCard.rawValue
                         card.month = String(monthExpiration)
                         card.year = String(yearExpiration)
                         card.colorR = Double(color.components.r)
@@ -85,12 +85,17 @@ struct AddCreditFormView: View {
                         card.colorA = Double(color.components.a)
                         
                         do {
-                            try moc.save()
+                            try viewContext.save()
+                            
+                            dismiss()
                         } catch {
-                            print("An error was catched during saved perform")
+                            print("An error was catched during saved perform: \(error)")
                         }
                         
-                        /*print("card to persist name: \(name), number: \(number), limit: \(limit), type: \(selectedTypeCard.id), month: \(monthExpiration), year: \(yearExpiration), color (red): \(Double(color.components.r)), color (green): \(Double(color.components.g)), color (blue): \(Double(color.components.b)), color (alpha): \(Double(color.components.a))")*/
+                        /*print("card to persist name: \(name), number: \(number), limit: \(limit), type: \(selectedTypeCard.id), month: \(monthExpiration), year: \(yearExpiration), color (red): \(Double(color.components.r)), color (green): \(Double(color.components.g)), color (blue): \(Double(color.components.b)), color (alpha): \(Double(color.components.a))")
+                        
+                        print("card context below")
+                        print(card)*/
                     }
                     .buttonStyle(.borderedProminent)
         
@@ -140,7 +145,9 @@ extension Color {
     
 struct AddCreditFormView_Previews: PreviewProvider {
     static var previews: some View {
+        
+        let context = PersistenceController.preview.container.viewContext
         AddCreditFormView()
-            .environment((\.managedObjectContext), PersistenceController.shared.container.viewContext)
+            .environment((\.managedObjectContext), context)
     }
 }
