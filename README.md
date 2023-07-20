@@ -1,6 +1,6 @@
 # Spending Tracker
 
-## A short descripciont about the App
+**Resume of the App**
 
 _This is an iOS App coded with Swift, SwiftUI languages which aims to organize your expenses._
 _How this work ?_
