@@ -11,6 +11,7 @@ _Well, you have a form where you can set up as many **credit cards** as you want
 * CoreData
 
 ## 📍 Pictures example
+### _Spending tracker App_
 
 <img src="/Resources/spending-tracker-1.png" alt="Alt text" title="Credit card one" width="300px"></img>
 <img src="/Resources/spending-tracker-2.png" alt="Alt text" title="Credit card two" width="300px"></img>
