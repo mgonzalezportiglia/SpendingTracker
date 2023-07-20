@@ -10,15 +10,18 @@ import SwiftUI
 struct CardView: View {
     
     let card: Card?
+    let shouldEdit: (() -> Void)?
     
-    init(card: Card? = nil) {
+    @State var refreshId = UUID()
+    
+    init(card: Card? = nil, shouldEdit: (() -> Void)? = nil) {
         self.card = card
+        self.shouldEdit = shouldEdit
     }
     
     @Environment(\.managedObjectContext) private var viewContext
     
     @State private var shouldPresentCardSheet = false
-    
     
     var body: some View {
         
@@ -39,9 +42,10 @@ struct CardView: View {
                             .font(.system(size: 26, weight: .bold))
                     }
                     .confirmationDialog("Remove card", isPresented: $shouldPresentCardSheet) {
+                        if let shouldEditAction = self.shouldEdit {
+                            Button("Edit", action: shouldEditAction)
+                        }
                         Button("Remove", role: .destructive, action: handleRemove)
-                    } message: {
-                        Text("Are you sure you want to delete this card?")
                     }
                     
                 }
@@ -53,11 +57,12 @@ struct CardView: View {
                     Spacer()
                     Text("Balance: $5.000")
                 }
-                Text(self.card?.number ?? "")
-                    .font(.system(.body, design: .monospaced))
+                Text(self.card?.number ?? "4567789545652134")
+                    .font(.system(.body))
+                    
                 
                 HStack {
-                    Text("Credit limit: $ \(self.card?.limit ?? 0)")
+                    Text("Credit limit: $ \(String(format: "%.2f", self.card?.limit ?? 0))")
                     
                     Spacer()
                     
@@ -94,6 +99,7 @@ struct CardView: View {
                 .strokeBorder()
         )
         .padding()
+        
     }
     
     private func handleRemove() -> Void {                
@@ -115,7 +121,7 @@ struct CardView_Previews: PreviewProvider {
         
         let context = PersistenceController.preview.container.viewContext
         
-        CardView(card: nil)
+        CardView(card: nil, shouldEdit: nil)
             .environment((\.managedObjectContext), context)
     }
 }

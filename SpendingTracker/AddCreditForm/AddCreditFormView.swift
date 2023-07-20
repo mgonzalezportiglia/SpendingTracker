@@ -10,6 +10,9 @@ import UIKit
 
 struct AddCreditFormView: View {
     
+    let card: Card?
+    var didSaveCard: ((Card) -> Void)? = nil
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -21,6 +24,29 @@ struct AddCreditFormView: View {
     @State private var monthExpiration = 1
     @State private var color: Color = .blue
     
+    init(card: Card? = nil, didSaveCard: ((Card) -> ())? = nil) {
+        self.card = card
+        
+        self._name = State(initialValue: self.card?.name ?? "")
+        self._number = State(initialValue: self.card?.number ?? "")
+        self._limit = State(initialValue: self.card?.limit.formatted() ?? "")
+        self._color = State(initialValue: Color(red: self.card?.colorR ?? 0, green: self.card?.colorG ?? 0, blue: self.card?.colorB ?? 0, opacity: self.card?.colorA ?? 0))
+        
+        if let type = self.card?.type {
+            self._selectedTypeCard = State(initialValue: TypeCard.init(rawValue: type)!)
+        }
+        
+        if let month = self.card?.month {
+            self._monthExpiration = State(initialValue: Int(month)!)
+        }
+        
+        if let year = self.card?.year {
+            self._yearExpiration = State(initialValue: Int(year)!)
+        }
+        
+        self.didSaveCard = didSaveCard
+        
+    }
     
     var body: some View {
         NavigationView {
@@ -66,39 +92,7 @@ struct AddCreditFormView: View {
             .navigationTitle(Text("Add credit card form"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-
-                        let card = Card(context: viewContext)
-                        
-                        card.timestamp = Date()
-                        card.id = UUID()
-                        
-                        card.name = name
-                        card.number = number
-                        card.limit = Double(limit) ?? 0.0
-                        card.type = selectedTypeCard.rawValue
-                        card.month = String(monthExpiration)
-                        card.year = String(yearExpiration)
-                        card.colorR = Double(color.components.r)
-                        card.colorG = Double(color.components.g)
-                        card.colorB = Double(color.components.b)
-                        card.colorA = Double(color.components.a)
-                        
-                        do {
-                            try viewContext.save()
-                            
-                            dismiss()
-                        } catch {
-                            print("An error was catched during saved perform: \(error)")
-                        }
-                        
-                        /*print("card to persist name: \(name), number: \(number), limit: \(limit), type: \(selectedTypeCard.id), month: \(monthExpiration), year: \(yearExpiration), color (red): \(Double(color.components.r)), color (green): \(Double(color.components.g)), color (blue): \(Double(color.components.b)), color (alpha): \(Double(color.components.a))")
-                        
-                        print("card context below")
-                        print(card)*/
-                    }
-                    .buttonStyle(.borderedProminent)
-        
+                    saveButton
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
@@ -109,7 +103,44 @@ struct AddCreditFormView: View {
         }
         .navigationViewStyle(.stack)
     }
+    
+    private var saveButton: some View {
+        Button("Save") {
+
+            let card = self.card != nil ? self.card! : Card(context: viewContext)
+            
+            card.timestamp = Date()
+            card.id = UUID()
+            
+            card.name = self.name
+            card.number = numberCardFormatter.string(from: NSNumber(value: Int(self.number)!))
+            card.limit = Double(self.limit) ?? 0.0
+            card.type = self.selectedTypeCard.rawValue
+            card.month = String(self.monthExpiration)
+            card.year = String(self.yearExpiration)
+            card.colorR = Double(self.color.components.r)
+            card.colorG = Double(self.color.components.g)
+            card.colorB = Double(self.color.components.b)
+            card.colorA = Double(self.color.components.a)
+            
+            do {
+                try viewContext.save()
+                
+                dismiss()
+                didSaveCard?(card)
+            } catch {
+                print("An error was catched during saved perform: \(error)")
+            }
+            
+            /*print("card to persist name: \(name), number: \(number), limit: \(limit), type: \(selectedTypeCard.id), month: \(monthExpiration), year: \(yearExpiration), color (red): \(Double(color.components.r)), color (green): \(Double(color.components.g)), color (blue): \(Double(color.components.b)), color (alpha): \(Double(color.components.a))")
+            
+            print("card context below")
+            print(card)*/
+        }
+        .buttonStyle(.borderedProminent)
+    }
 }
+
 
 enum TypeCard: String, CustomStringConvertible, CaseIterable, Identifiable {
     var id: Self { self }
@@ -142,12 +173,19 @@ extension Color {
         return (Double(r), Double(g), Double(b), Double(a))
     }
 }
+
+private let numberCardFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.positiveFormat = "####,####"
+    formatter.groupingSeparator = "  "
+    return formatter
+}()
     
 struct AddCreditFormView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let context = PersistenceController.preview.container.viewContext
-        AddCreditFormView()
+        let context = PersistenceController.shared.container.viewContext
+        AddCreditFormView(card: nil, didSaveCard: nil)
             .environment((\.managedObjectContext), context)
     }
 }
