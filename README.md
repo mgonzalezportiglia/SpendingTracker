@@ -1,6 +1,7 @@
 # Spending Tracker
 
 ## A short descripciont about the App
+
 _This is an iOS App coded with Swift, SwiftUI languages which aims to organize your expenses._
 _How this work ?_
 _Well, you have a form where you can set up as many **credit cards** as you want, and then another form where you can add their **associate expenses**._
